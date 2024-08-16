@@ -45,7 +45,6 @@ async function makeRequest(endpoint, method = 'GET', params = {}) {
     }
 }
 
-// Пример использования: получение списка контрактов
 async function getContracts() {
     try {
         const result = await makeRequest('/openApi/swap/v2/quote/contracts');
@@ -55,5 +54,98 @@ async function getContracts() {
     }
 }
 
+async function getCandleData() {
+    //request: symbol, interval, startTime, endTime
+
+    const params = {
+        symbol: 'BTC-USDT',
+        interval: '1d', //one of the following values: 1m 3m 5m 15m 30m 1h 2h 4h 6h 8h 12h 1d 3d 1w 1M."
+        startTime: 1702717199998,
+    }
+
+    try {
+        const result = await makeRequest('/openApi/swap/v2/quote/klines', 'GET', params);
+        console.log('BTC:', result);
+        // получаем такое:
+        // data: {
+        //     open: '57517.6',
+        //     close: '59038.2',
+        //     high: '59800.0',
+        //     low: '57070.5',
+        //     volume: '50036.84',
+        //     time: 1723766400000
+        //   }
+    } catch (error) {
+        console.error('Failed to get contracts:', error);
+    }
+}
+
+async function get24HTickerChange() {
+    const params = {
+        symbol: 'BTC-USDT',
+    }
+
+    try {
+        const result = await makeRequest('/openApi/swap/v2/quote/ticker', 'GET', params);
+        console.log('BTC:', result);
+        // получаем такое:
+        //data: {
+        //     symbol: 'BTC-USDT',
+        //     priceChange: '1506.5',
+        //     priceChangePercent: '2.62',
+        //     lastPrice: '59038.1',
+        //     lastQty: '0.0010',
+        //     highPrice: '59800.0',
+        //     lowPrice: '57070.5',
+        //     volume: '52214.7232',
+        //     quoteVolume: '3051965217.92',
+        //     openPrice: '57531.6',
+        //     openTime: 1723846418094,
+        //     closeTime: 1723846668256,
+        //     askPrice: '59038.3',
+        //     askQty: '2.6146',
+        //     bidPrice: '59034.9',
+        //     bidQty: '0.0143'
+        //   }
+    } catch (error) {
+        console.error('Failed to get contracts:', error);
+    }
+}
+
+async function getCandlesData() {
+    const params = {
+        symbol: 'BTC-USDT',
+        interval: "1h",
+    limit: "1000",
+    startTime: "1702717199998"
+    }
+
+    try {
+        const result = await makeRequest('/openApi/swap/v2/quote/ticker', 'GET', params);
+        console.log('BTC:', result);
+        // получаем такое:
+        //data: {
+        //     symbol: 'BTC-USDT',
+        //     priceChange: '1506.5',
+        //     priceChangePercent: '2.62',
+        //     lastPrice: '59038.1',
+        //     lastQty: '0.0010',
+        //     highPrice: '59800.0',
+        //     lowPrice: '57070.5',
+        //     volume: '52214.7232',
+        //     quoteVolume: '3051965217.92',
+        //     openPrice: '57531.6',
+        //     openTime: 1723846418094,
+        //     closeTime: 1723846668256,
+        //     askPrice: '59038.3',
+        //     askQty: '2.6146',
+        //     bidPrice: '59034.9',
+        //     bidQty: '0.0143'
+        //   }
+    } catch (error) {
+        console.error('Failed to get contracts:', error);
+    }
+}
+
 // Запуск примера
-getContracts();
+getCandlesData();
