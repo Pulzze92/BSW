@@ -54,20 +54,8 @@ async function getContracts() {
   }
 }
 
-async function getCandleData() {
+async function getCandleData(params) {
   //request: symbol, interval, startTime, endTime
-
-  const endTime = Date.now(); // текущее время
-  const startTimeDay = endTime - 4 * 24 * 60 * 60 * 1000; // 4 дня назад. менять будем ее если дневки
-  const startTimeMonth = endTime - 4 * 30 * 24 * 60 * 60 * 1000; // 4 месяца назад (нужна логика в зависимости от количества дней в месяце)
-
-  const params = {
-    symbol: 'BTC-USDT',
-    interval: '1M', //one of the following values: 1m 3m 5m 15m 30m 1h 2h 4h 6h 8h 12h 1d 3d 1w 1M."
-    startTime: startTimeMonth,
-    endTime: endTime,
-    limit: 4, // 4 свечи
-  };
 
   try {
     const result = await makeRequest('/openApi/swap/v2/quote/klines', 'GET', params);
@@ -118,5 +106,4 @@ async function get24HTickerChange() {
   }
 }
 
-// Запуск примера
-getCandleData();
+export { getContracts, getCandleData, get24HTickerChange };
